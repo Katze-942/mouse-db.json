@@ -30,3 +30,4 @@ function set(key, value) {
 }
 
 module.exports = { set };
+// test
