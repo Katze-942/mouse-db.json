@@ -1,0 +1,25 @@
+{
+  "name": "quick.db.json",
+  "version": "1.0.0",
+  "description": "The original quick.db, but written in json and configured.",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DarkVessel/quick.db.json.git"
+  },
+  "keywords": [
+    "quick.db",
+    "json"
+  ],
+  "author": "DarkVessel",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DarkVessel/quick.db.json/issues"
+  },
+  "homepage": "https://github.com/DarkVessel/quick.db.json#readme"
+}
