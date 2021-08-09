@@ -106,3 +106,7 @@ dist
 
 # Test file.
 test.js
+
+*json.sqlite
+
+sqlite.json
