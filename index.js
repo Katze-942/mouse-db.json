@@ -6,6 +6,6 @@ try {
     fs.writeFileSync("sqlite.json", "{}");
 }
 
-module.exports = { 
+module.exports = {
     set: require("./methods/set.js"),
 };

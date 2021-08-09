@@ -4,7 +4,10 @@ module.exports = (key, value) => {
     // Проверки...
     if (!key) throw TypeError("No key specified.");
     if (typeof key != "string") throw TypeError("The key value must be a string!");
-    if (value === undefined) return;
+    if (value === undefined) value = null;
+    
+    // Проверка, можно ли записать такой тип данных...
+    if (JSON.stringify({ a:value }) === "{}") throw TypeError("Unsupported data type! Check what you are passing as a JSON entry.");
 
     // Вызов файла...
     const file = JSON.parse(fs.readFileSync("sqlite.json", { encoding: 'utf8', flag: 'r' }));
@@ -18,6 +21,8 @@ module.exports = (key, value) => {
         };
         eval("file" + keySplit.join("") + "=value");
     };
+
+    // Записываем и возвращает значение...
     fs.writeFileSync("sqlite.json", JSON.stringify(file, null, 4));
     return value;
 }
