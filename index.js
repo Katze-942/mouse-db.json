@@ -1,9 +1,11 @@
 const fs = require("fs");
 
+const path = require("./tools.js").pathFixed();
+
 try {
-    JSON.parse(fs.readFileSync("sqlite.json", { encoding: 'utf8', flag: 'r' }));
-} catch (err) {
-    fs.writeFileSync("sqlite.json", "{}");
+    require(path + "/sqlite.json");
+} catch {
+    fs.writeFileSync(path + "/sqlite.json", "{}");
 }
 
 const file_exports = {};
