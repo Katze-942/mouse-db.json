@@ -7,6 +7,7 @@ try {
 }
 
 const file_exports = {};
+file_exports.table = db;
 fs.readdirSync("./methods").filter(file => file.endsWith(".js")).forEach(file => {
     file = file.slice(0, -3);
     const fileSplit = file.split("-");

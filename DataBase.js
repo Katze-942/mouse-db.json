@@ -5,7 +5,7 @@ class DataBase {
   static path = this._dirnameSplit.slice(0, this._dirnameSplit.includes("node_modules")
     ? this._dirnameSplit.indexOf("node_modules") - 1
     : this._dirnameSplit.length).join("/");
-  json = require(DataBase.path + "/sqlite.json");
+  static json = require(DataBase.path + "/sqlite.json");
 
   constructor(key) {
     if (!key) throw TypeError("No key specified.");
@@ -16,17 +16,17 @@ class DataBase {
   };
   set(value = null) {
     if (JSON.stringify({ a: value }) === "{}") throw TypeError("Unsupported data type! Check what you are passing as a JSON entry.");
-    if (this.keySplit.length > 1 && !isObject(eval("this.json" + this.keySplit.join("?.")))) { // Проверяем, является ли основной путь - объектом. 
+    if (this.keySplit.length > 1 && !isObject(eval("DataBase.json" + this.keySplit.join("?.")))) { // Проверяем, является ли основной путь - объектом. 
       for (let i = 0; i < this.keySplit.length - 1; i++) { // Перебираем каждый ключ и если что присваиваем ему объект.
-        if (!isObject(eval("this.json" + this.keySplit.slice(0, i + 1).join("")))) eval("this.json" + this.keySplit.slice(0, i + 1).join("") + "={}");
+        if (!isObject(eval("DataBase.json" + this.keySplit.slice(0, i + 1).join("")))) eval("DataBase.json" + this.keySplit.slice(0, i + 1).join("") + "={}");
       };
     };
-    eval("this.json" + this.keySplit.join("") + "=value");
-    fs.writeFileSync(DataBase.path + "/sqlite.json", JSON.stringify(this.json, null, 4));
+    eval("DataBase.json" + this.keySplit.join("") + "=value");
+    fs.writeFileSync(DataBase.path + "/sqlite.json", JSON.stringify(DataBase.json, null, 4));
     return value;
   }
   get() {
-    return eval("this.json" + this.keySplit.join("?."));
+    return eval("DataBase.json" + this.keySplit.join("?."));
   }
 };
 module.exports = DataBase;
