@@ -21,5 +21,5 @@ module.exports = (key, val) => {
 
     // Записываем и возвращаем значение...
     fs.writeFileSync(path + "/sqlite.json", JSON.stringify(file, null, 4));
-    return value;
+    return data;
 }
