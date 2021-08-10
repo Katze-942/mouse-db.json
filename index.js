@@ -1,11 +1,9 @@
 const fs = require("fs");
-
-const path = require("./tools.js").pathFixed();
-
+const db = require("./DataBase.js");
 try {
-    require(path + "/sqlite.json");
+    require(db.path + "/sqlite.json");
 } catch {
-    fs.writeFileSync(path + "/sqlite.json", "{}");
+    fs.writeFileSync(db.path + "/sqlite.json", "{}");
 }
 
 const file_exports = {};
