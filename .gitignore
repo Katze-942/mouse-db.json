@@ -110,3 +110,5 @@ test.js
 *json.sqlite
 
 sqlite.json
+
+.vscode
