@@ -40,7 +40,7 @@ class DataBase {
   // Убрать ключ.
   removeKey(num = 1) {
     if (this.keySplit.length == 1) throw Error("You only have one key, you have nothing to clean!");
-    if (typeof num != "number") throw TypeError("The value is not a number!");
+    if (isNaN(num) || typeof num != "number") throw TypeError("The value is not a number!");
     if (this.keySplit.length <= num) throw Error(`You have only ${this.keySplit.length} keys, you cannot remove ${num} keys. You can only remove a maximum of ${this.keySplit.length-1}.`)
     this.keySplit = this.keySplit.slice(0, -num);
   }
@@ -60,19 +60,31 @@ class DataBase {
 
   // Получить данные по ключу.
   get() { return eval("DataBase.json" + this.keySplit.join("?.")); }
+  has() { return this.get() !== undefined ? true : false }
+
+  // Удалить значение.
+  delete() {
+    if (!this.has()) return false;
+    eval("delete DataBase.json" + this.keySplit.join(""));
+    fs.writeFileSync(DataBase.path + "/sqlite.json", JSON.stringify(DataBase.json, null, 4));
+    return true;
+  }
 
   // Добавить число.
   add(value) {
     if (value == undefined) throw TypeError("Enter the number!");
-    if (typeof value != "number") throw TypeError("The value is not a number!");
+    if (isNaN(value) || typeof value != "number") throw TypeError("The value is not a number!");
 
     let data = this.get();
-    if (typeof data === "number") data += value;
+    if (!isNaN(data) && typeof data === "number") data += value;
     else data = value;
 
     return this.set(data);
   }
 
+  remove(value) {
+      return this.add(-value);
+  }
   // Добавить элемент к массиву.
   push(value) { // 
     let data = this.get();
