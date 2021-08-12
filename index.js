@@ -13,9 +13,11 @@ const alilases = {
     remove: ["subtract"]
 }
 
-const file_exports = {};
+const file_exports = {
+    all: () => db.json,
+};
 file_exports.table = db;
-const methods = ["add", "all", "push", "set", "get", "has", "delete", "remove"];
+const methods = ["add", "push", "set", "get", "has", "delete", "remove"];
 for (let i = 0; i < methods.length; i++) {
     file_exports[methods[i]] = (key, ...args) => new db(key)[methods[i]](...args);
     if (alilases[methods[i]]?.length) {

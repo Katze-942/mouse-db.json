@@ -60,11 +60,15 @@ class DataBase {
 
   // Получить данные по ключу.
   get() { return eval("DataBase.json" + this.keySplit.join("?.")); }
-  has() { return this.get() !== undefined ? true : false }
+  has({ checkNull } = {}) {
+    const data = this.get();
+    return data !== undefined && (!checkNull || data !== null) 
+      ? true : false 
+  }
 
   // Удалить значение.
   delete() {
-    if (!this.has()) return false;
+    if (!this.has({ checkNull: false })) return false;
     eval("delete DataBase.json" + this.keySplit.join(""));
     fs.writeFileSync(DataBase.path + "/sqlite.json", JSON.stringify(DataBase.json, null, 4));
     return true;
@@ -77,7 +81,8 @@ class DataBase {
 
     let data = this.get();
     if (!isNaN(data) && typeof data === "number") data += value;
-    else data = value;
+    else if (!this.has({ checkNull: true })) data = value;
+    else throw TypeError("The object in the database is not a number!");
 
     return this.set(data);
   }
@@ -86,14 +91,13 @@ class DataBase {
       return this.add(-value);
   }
   // Добавить элемент к массиву.
-  push(value) { // 
+  push(value) { 
     let data = this.get();
     if (Array.isArray(data)) data.push(value);
-    else data = [value];
+    else if (!this.has({ checkNull: true })) data = [value];
+    else throw TypeError("The array is not in the database for this key!");
 
     return this.set(data);
   }
-
-  all() { return DataBase.json; }
 };
 module.exports = DataBase;

@@ -1,6 +1,7 @@
 # # quick.db.JSON
 #### This module was created for those who have problems with the original quick.db (for example installation or work)
 #### The documentation of the original quick.db will almost completely fit this module, so ***most likely you won't need to rewrite anything.***
+## !! RECOMMENDED VERSION NODE.JS: 14.17.5 OR ABOVE !!
 ---
 ## The main differences of quick.db and quick.db.json:
 - In quick.db is used by `sqlite`, and in my module: `json`, which means you don't need to compile and install anything, everything is already pre-installed.
@@ -23,7 +24,7 @@ db.get('economy'); // -> 500
 ```
 - The `db.all()` function does not return an array, but a JSON object of the file.
 - The `db.get(key)` function returns `undefined` if the element is not found. In the original module, the function returns `null`
-- The functions `db.add(key, value)` are identical to `db.push`, replace the element with a number.
+- The `db.push(key, value)` function returns the modified array.
 - Instead of `json.sqlite`, is created `sqlite.json`
 ### These were the main differences from the original quick.db
 ### My module will also have its own chips and functions that are independent of the original `quick.db`, it's just a matter of time.
