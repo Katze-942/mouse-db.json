@@ -14,7 +14,7 @@
 ## Примеры работы функций:
 ```js
 // P.S: Символом "->" буду обозначать что возвращает та или иная функция.
-const db = require("quick.db.json");
+const db = require("mouse-db.json");
 
 // Функция создаст объект profile в sqlite.json:
 /*

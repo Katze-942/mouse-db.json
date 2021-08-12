@@ -1,4 +1,4 @@
-# # quick.db.json
+# # mouse-db.json
 ## Русскоязычный README: [click](https://github.com/DarkVessel/quick.db.json/blob/main/md/RU/README_RU.md)
 ## English README: [click](https://github.com/DarkVessel/quick.db.json/blob/main/md/EN/README_EN.md)
 ---

@@ -15,7 +15,7 @@ After initializing the module, a `sqlite.json` file will be created in your dire
 ## Examples of how functions work:
 ```js
 // P.S: The symbol "->" will indicate what this or that function returns.
-const db = require("quick.db.json");
+const db = require("mouse-db.json");
 
 // The function will create a profile object in sqlite.json:
 /*

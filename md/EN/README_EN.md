@@ -1,9 +1,9 @@
-# # quick.db.JSON
+# # mouse-db.json
 #### This module was created for those who have problems with the original quick.db (for example installation or work)
 #### The documentation of the original quick.db will almost completely fit this module, so ***most likely you won't need to rewrite anything.***
 ## !! RECOMMENDED VERSION NODE.JS: 14.17.5 OR ABOVE !!
 ---
-## The main differences of quick.db and quick.db.json:
+## The main differences of quick.db and mouse-db.json:
 - In quick.db is used by `sqlite`, and in my module: `json`, which means you don't need to compile and install anything, everything is already pre-installed.
 - In the original quick.db, `new db.table(key)` will return you a class with all the functions. However, there is one thing, in my module, you do NOT need to specify the key in the functions from `table`. Example:
 ```js
@@ -15,8 +15,8 @@ economy.get('myBalance'); // -> 500
 db.get('economy'); // -> { myBalance: 500 }
 ```
 ```js
-// quick.db.json
-const db = require("quick.db.json");
+// mouse-db.json
+const db = require("mouse-db.json");
 const economy = new db.table('economy'); 
 economy.set(500);  // -> 500
 economy.get();     // -> 500

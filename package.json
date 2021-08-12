@@ -1,5 +1,5 @@
 {
-  "name": "quick.db.json",
+  "name": "mouse-db.json",
   "version": "1.0.1",
   "description": "The original quick.db, but written in json and configured.",
   "main": "index.js",
@@ -15,8 +15,9 @@
   "keywords": [
     "quick.db",
     "json",
-    "DataBase"
-  ],
+    "database",
+    "db"
+  ],  
   "author": "DarkVessel",
   "license": "MIT",
   "bugs": {
