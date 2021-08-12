@@ -1,6 +1,6 @@
 {
   "name": "quick.db.json",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "The original quick.db, but written in json and configured.",
   "main": "index.js",
   "dependencies": {},
@@ -14,7 +14,8 @@
   },
   "keywords": [
     "quick.db",
-    "json"
+    "json",
+    "DataBase"
   ],
   "author": "DarkVessel",
   "license": "MIT",

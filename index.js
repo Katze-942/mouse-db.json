@@ -1,32 +1,29 @@
 const fs = require("fs");
-
+const db = require("./DataBase.js");
 try {
-    JSON.parse(fs.readFileSync("sqlite.json", { encoding: 'utf8', flag: 'r' }));
-} catch (err) {
-    fs.writeFileSync("sqlite.json", "{}");
+    if (Object.prototype.toString.call(require(db.path + "/sqlite.json")) !== "[object Object]") throw TypeError("!");
+} catch {
+    fs.writeFileSync(db.path + "/sqlite.json", "{}");
+}
+db.json = require(db.path + "/sqlite.json");
+
+const alilases = {
+    get: ["fetch"],
+    has: ["exists"],
+    remove: ["subtract"]
 }
 
-const isObject = (obj) => Object.prototype.toString.call(obj) === "[object Object]";
-
-function set(key, value) {
-    // Проверки...
-    if (!key) throw TypeError("No key specified.");
-    if (typeof key != "string") throw TypeError("The key value must be a string!");
-    if (value === undefined) return;
-
-    // Вызов файла...
-    const file = JSON.parse(fs.readFileSync("sqlite.json", { encoding: 'utf8', flag: 'r' }));
-    const keySplit = key.split(".").filter(key => key != "").map(key => `["${key}"]`);
-
-    // Обработка...
-    if (keySplit.length === 1) file[keySplit[0].slice(2, -2)] = value;
-    else if (!isObject(eval("file" + keySplit.join("?.")))) {
-        for (let i = 0; i < keySplit.length; i++) {
-            if (!isObject(eval("file" + keySplit.slice(0, i + 1).join("")))) eval("file" + keySplit.slice(0, i + 1).join("") + "={}");
-        };
-        eval("file" + keySplit.join("") + "=value");
-    };
-    fs.writeFileSync("sqlite.json", JSON.stringify(file, null, 4));
+const file_exports = {
+    all: () => db.json,
+};
+file_exports.table = db;
+const methods = ["add", "push", "set", "get", "has", "delete", "remove"];
+for (let i = 0; i < methods.length; i++) {
+    file_exports[methods[i]] = (key, ...args) => new db(key)[methods[i]](...args);
+    if (alilases[methods[i]]?.length) {
+        for (alias of alilases[methods[i]]) {
+            file_exports[alias] = file_exports[methods[i]];
+        }
+    }
 }
-
-module.exports = { set };
+module.exports = file_exports;
