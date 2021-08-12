@@ -1,6 +1,6 @@
 {
   "name": "mouse-db.json",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "The original quick.db, but written in json and configured.",
   "main": "index.js",
   "dependencies": {},
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DarkVessel/quick.db.json.git"
+    "url": "git+https://github.com/DarkVessel/mouse-db.json.git"
   },
   "keywords": [
     "quick.db",
@@ -21,7 +21,7 @@
   "author": "DarkVessel",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/DarkVessel/quick.db.json/issues"
+    "url": "https://github.com/DarkVessel/mouse-db.json/issues"
   },
-  "homepage": "https://github.com/DarkVessel/quick.db.json#readme"
+  "homepage": "https://github.com/DarkVessel/mouse-db.json#readme"
 }
