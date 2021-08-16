@@ -4,7 +4,7 @@ class DataBase {
   static _dirnameSplit = __dirname.split("/");
   static path = this._dirnameSplit // Глобальный путь до проекта.
     .slice(0, this._dirnameSplit.includes("node_modules")
-      ? this._dirnameSplit.indexOf("node_modules") - 1
+      ? this._dirnameSplit.indexOf("node_modules")
       : this._dirnameSplit.length).join("/");
   static json;// json файл.
 
@@ -48,7 +48,7 @@ class DataBase {
   // Сохранить значение.
   set(value = null) {
     if (JSON.stringify({ a: value }) === "{}") throw TypeError("Unsupported data type! Check what you are passing as a JSON entry.");
-    if (this.keySplit.length > 1 && !isObject(eval("DataBase.json" + this.keySplit.join("?.")))) { // Проверяем, является ли основной путь - объектом. 
+    if (this.keySplit.length > 1 && !isObject(eval("DataBase.json" + this.keySplit.join("?.")))) { // Проверяем, является ли основной путь - объектом.
       for (let i = 0; i < this.keySplit.length - 1; i++) { // Перебираем каждый ключ и если что присваиваем ему объект.
         if (!isObject(eval("DataBase.json" + this.keySplit.slice(0, i + 1).join("")))) eval("DataBase.json" + this.keySplit.slice(0, i + 1).join("") + "={}");
       };
@@ -62,8 +62,8 @@ class DataBase {
   get() { return eval("DataBase.json" + this.keySplit.join("?.")); }
   has({ checkNull } = {}) {
     const data = this.get();
-    return data !== undefined && (!checkNull || data !== null) 
-      ? true : false 
+    return data !== undefined && (!checkNull || data !== null)
+      ? true : false
   }
 
   // Удалить значение.
@@ -77,10 +77,10 @@ class DataBase {
   // Добавить число.
   add(value) {
     if (value == undefined) throw TypeError("Enter the number!");
-    if (isNaN(value) || typeof value != "number") throw TypeError("The value is not a number!");
+    if (isNaN(value)) throw TypeError("The value is not a number!");
 
     let data = this.get();
-    if (!isNaN(data) && typeof data === "number") data += value;
+    if (!isNaN(data)) data = Number(data) + Number(value);
     else if (!this.has({ checkNull: true })) data = value;
     else throw TypeError("The object in the database is not a number!");
 
@@ -91,7 +91,7 @@ class DataBase {
       return this.add(-value);
   }
   // Добавить элемент к массиву.
-  push(value) { 
+  push(value) {
     let data = this.get();
     if (Array.isArray(data)) data.push(value);
     else if (!this.has({ checkNull: true })) data = [value];

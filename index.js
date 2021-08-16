@@ -1,11 +1,12 @@
 const fs = require("fs");
 const db = require("./DataBase.js");
 try {
-    if (Object.prototype.toString.call(require(db.path + "/sqlite.json")) !== "[object Object]") throw TypeError("!");
+    db.json = require(db.path + "/sqlite.json");
+    if (Object.prototype.toString.call(db.json) !== "[object Object]") throw TypeError("!");
 } catch {
+    db.json = {}
     fs.writeFileSync(db.path + "/sqlite.json", "{}");
 }
-db.json = require(db.path + "/sqlite.json");
 
 const alilases = {
     get: ["fetch"],
