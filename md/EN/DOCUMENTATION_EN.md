@@ -52,9 +52,9 @@ db.push("profile.mouse.friends", "Zlagger"); // -> ["Zlagger"]
 /*
 {
     "profile": {
-        "mouse": { 
+        "mouse": {
             "age": 2,
-            "cheese": 0 
+            "cheese": 0
         }
     }
 }
@@ -68,8 +68,6 @@ Aliases are an alternative name for some functions. For example, instead of `db.
 - `db.subtract` - `db.remove`
 ## Initializing a class table:
 If you are working with the same key, it will be much more productive to initialize the class with this key and already work with it.
-
-***Reference: After each function call, it doesn't matter if it's `db.set`, or `db.has`, always creates a new instance of the class with the key. This may not always be productive, so you can manually create an instance of the class and interact with it.***
 ### Example:
 ```js
 const db = require("quick.db");
@@ -85,7 +83,7 @@ As you have noticed, it is not necessary to specify the key in the function. The
 - `table.addKey(key)` - Add a new key for the class.
 - `table.removeKey(number)` - Remove a certain number of keys.
 ### Examples of work:
-```js 
+```js
 const db = require("quick.db");
 const table = new db.table("money");
 

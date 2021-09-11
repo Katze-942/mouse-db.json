@@ -9,7 +9,7 @@
 ```js
 // quick.db
 const db = require("quick.db");
-const economy = new db.table('economy'); 
+const economy = new db.table('economy');
 economy.set('myBalance', 500); // economy.myBalance
 economy.get('myBalance'); // -> 500
 db.get('economy'); // -> { myBalance: 500 }
@@ -17,7 +17,7 @@ db.get('economy'); // -> { myBalance: 500 }
 ```js
 // mouse-db.json
 const db = require("mouse-db.json");
-const economy = new db.table('economy'); 
+const economy = new db.table('economy');
 economy.set(500);  // -> 500
 economy.get();     // -> 500
 db.get('economy'); // -> 500
@@ -27,6 +27,7 @@ db.get('economy'); // -> 500
 - The `db.push(key, value)` function returns the modified array.
 - Instead of `json.sqlite`, is created `sqlite.json`
 ### These were the main differences from the original quick.db
+### Documentation: [click](https://github.com/DarkVessel/mouse-db.json/blob/main/md/EN/DOCUMENTATION_EN.md)
 ### My module will also have its own chips and functions that are independent of the original `quick.db`, it's just a matter of time.
 # That's all, if anything, I'm waiting for questions/bugs/ideas in the #Issues of this GitHub repository.
 ---

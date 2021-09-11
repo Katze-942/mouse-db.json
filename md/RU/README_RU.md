@@ -2,7 +2,7 @@
 #### Данный модуль был создан для тех, у кого проблемы с оригинальным quick.db ( установкой например или работой )
 #### Документация оригинального quick.db почти полностью подойдёт под этот модуль, поэтому ***скорее всего вам ничего переписывать не придётся.***
 
-## !! РЕКОМЕНДУЕМАЯ ВЕРСИЯ NODE.JS: 14.17.5 ИЛИ ВЫШЕ !! 
+## !! РЕКОМЕНДУЕМАЯ ВЕРСИЯ NODE.JS: 14.17.5 ИЛИ ВЫШЕ !!
 ---
 ## Установка:
 - npm install mouse-db.json
@@ -13,7 +13,7 @@
 ```js
 // quick.db
 const db = require("quick.db");
-const economy = new db.table('economy'); 
+const economy = new db.table('economy');
 economy.set('myBalance', 500); // economy.myBalance
 economy.get('myBalance'); // -> 500
 db.get('economy'); // -> { myBalance: 500 }
@@ -21,7 +21,7 @@ db.get('economy'); // -> { myBalance: 500 }
 ```js
 // mouse-db.json
 const db = require("mouse-db.json");
-const economy = new db.table('economy'); 
+const economy = new db.table('economy');
 economy.set(500);  // -> 500
 economy.get();     // -> 500
 db.get('economy'); // -> 500
@@ -33,4 +33,5 @@ db.get('economy'); // -> 500
 ---
 ### Это были основые отличия от оригинального quick.db
 ### В моём модуле также будут появляться свои фишки и функции, независимые от оригинального `quick.db`, всего-то вопрос времени.
+### Документация: [click](https://github.com/DarkVessel/mouse-db.json/blob/main/md/RU/DOCUMENTATION_RU.md)
 # На этом всё, если что жду вопросов/багов/идей в #Issues этого репозитория GitHub.

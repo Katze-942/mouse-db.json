@@ -112,3 +112,7 @@ test.js
 sqlite.json
 
 .vscode
+package-lock.json
+build/*
+
+cache/
