@@ -1,6 +1,7 @@
-import { rm, existsSync, mkdirSync, readdir, readdirSync, statSync } from "fs";
-import DataBase from "../DataBase";
-import { promisify } from "util";
+import { rm, existsSync, mkdirSync, readdir, readdirSync, statSync } from "fs"
+import { promisify } from "util"
+import DataBase from "../DataBase"
+import rmFileAndFolder from "./rm"
 import DBError from "../DBError"
 
 // Преобразуем callback-функции в асихронные.
@@ -8,8 +9,6 @@ const rmAsync = promisify(rm);
 
 const folderName = "cache/";
 let lastBackupFile: object = {};
-
-
 
 function scanFiles(path: string, files: Array<string>) {
     // Проверяем наличие файла. Если файл есть - ищем последний кеш. если нет - просто всё удалится.
@@ -23,23 +22,11 @@ function scanFiles(path: string, files: Array<string>) {
             break;
         };
     } else {
-        const pathSplit = path.split("/").filter(k => k != "");
-        if (existsSync(folderName + pathSplit[0])) {
-            const slicePath = folderName + (pathSplit.length > 1 ? pathSplit.slice(0, pathSplit.length-1).join("/") : pathSplit[0]);
-            readdir(folderName + slicePath, (err, files) => {
-                if (err) return console.error(err.stack);
-                for (let i = 0; i < files.length; i++) {
-                    rm(slicePath + "/" + files[i], (err) => {
-                        if (err) console.error(err.stack);
-                    });
-                };
-                
-            });
-        };
+      rmFileAndFolder(path);
     };
     files = files.concat(files.filter(file => file.endsWith(".write")));
     for (let i = files.length - 1; i != -1; i--) rmAsync(folderName + path + "/" + files[i]);
-}
+};
 
 function checkFileForErrors(fileName: string): boolean {
     try {
@@ -71,7 +58,7 @@ function checkFile(fileName: string): void {
                 mkdirSync(folderPath);
                 skipCheck = true;
             };
-        }
+        };
     } else {
         if (workingFile) {
             readdir(folderName + fileName, (err, files) => {
@@ -85,5 +72,5 @@ function checkFile(fileName: string): void {
 
     if (workingFile) DataBase.json[fileName + ".json"] = require(DataBase.globalPath + fileName);
     else if (lastBackupFile[fileName]) DataBase.json[fileName + ".json"] = require("../../" + lastBackupFile[fileName]);
-}
+};
 export default checkFile;
