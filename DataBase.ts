@@ -1,4 +1,3 @@
-import { existsSync } from "fs"
 import printIndices from "./tools/printIndices"
 import scanValue from "./tools/scan-tools"
 import writeFile from "./tools/writeFile"
