@@ -1,3 +1,3 @@
 import DataBase from "./DataBase"
 
-export default DataBase;
+export = DataBase;

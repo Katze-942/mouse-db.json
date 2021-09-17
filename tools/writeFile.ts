@@ -6,8 +6,7 @@ import { promisify } from "util";
 const renameAsync    = promisify(rename);
 const rmAsync        = promisify(rm);
 
-// Название папки кеша, данные о том что надо записывать в файл и последний записанный бекап.
-const folderName = "cache/";
+// Глобальный путь дo папки кеша, данные о том что надо записывать в файл и последний записанный бекап.
 const recordQueue = {};
 let lastBackupFile = {};
 
@@ -49,7 +48,7 @@ function writeFile(fileName: string, str: string) {
     fileName = fileName.slice(0, -5);
 
     // Пути к кешу и путь к самой базе.
-    const pathToCache = folderName + fileName + "/" + Date.now() + "-" + Math.random() + ".json";
+    const pathToCache = DataBase.globalPathToTheModule + "cache/" + fileName + "/" + Date.now() + "-" + Math.random() + ".json";
     const pathToDB = DataBase.globalPath + "/" + fileName + ".json";
 
     // Создаём стримы для обоих файлов.

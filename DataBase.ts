@@ -17,7 +17,7 @@ interface KeyHandlingObject {
 };
 
 // Конфигурация для модели-конфига
-interface ConfigObject {
+interface ConfigModel {
 	name: string,
 	type: string,
 	default: any,
@@ -25,28 +25,34 @@ interface ConfigObject {
 };
 
 // Конфигурация которую юзер может указывать.
-interface ConfigDB {
+interface ConfigUser {
 	fileName?: string,
 };
+/**
+ * Database class, contains settings, key and functions
+*/
 export default class DataBase {
 	// Параметры в this.
 	public key: string[];
-	public config: ConfigDB;
+	public config: ConfigUser;
 
 	// База данных.
 	static json: object = {}
 
-	// Глобальный путь до проекта, где нужно создать sqlite.json.
+	// Глобальный путь до проекта, где нужно создать mouse.json.
 	static globalPath = (_dirnameSplit.slice(0, _dirnameSplit.includes("node_modules") ? _dirnameSplit.indexOf("node_modules") : _dirnameSplit.length).join("/")) + "/";
+
+	// Глобальный путь до модуля...
+	static globalPathToTheModule = _dirnameSplit.slice(0, _dirnameSplit.includes("node_modules") ? _dirnameSplit.indexOf("node_modules") + 2 : _dirnameSplit.length).join("/") + "/";
 
 	// Проверенные файлы.
 	static checkedFiles: Array<string> = [];
 
 	// Модель конфига...
-	static configModel: ConfigObject[] = [
+	static configModel: ConfigModel[] = [
 		{
-			name: "fileName", type: "string", default: "sqlite.json", check: function(data) {
-				if (!data.endsWith(".json")) throw new DBError(`Instance "config.${this.name}" has an incorrect setting. File endings must end with ".json"`);
+			name: "fileName", type: "string", default: "mouse.json", check: function(data) {
+				if (!data.endsWith(".json")) throw new DBError(`Instance "config.${this.name}" has an incorrect setting. File endings must end with ".json"`, { code: 300 });
 				if (!DataBase.checkedFiles.includes(data)) {
 					DataBase.json[data] = {};
 					checkFile(data);
@@ -63,28 +69,33 @@ export default class DataBase {
 	}, {})[0];
 	
 	// Инициализация конструктора.
-	constructor(key?: string, config?: ConfigDB);
-	constructor(config?: ConfigDB)
-	constructor(key?: string | ConfigDB, config?: ConfigDB) {
+	/**
+	 * ! You can omit the arguments, but keep in mind that you have to specify the keys in the functions!
+	 * @param { string }  key 
+	 * @param { ConfigUser } config 
+	 */
+	constructor(key?: string, config?: ConfigUser);
+	constructor(config?: ConfigUser)
+	constructor(key?: string | ConfigUser, config?: ConfigUser) {
 		this.config = {};
 		if (key !== undefined) {
 			if (!config) {
-				if (typeof key !== "string" && !isObject(key)) throw new DBError(`Unknown data type "${typeof key}" during class initialization. Specify either a key or a object.`)
+				if (typeof key !== "string" && !isObject(key)) throw new DBError(`Unknown data type "${typeof key}" during class initialization. Specify either a key or a object.`, { code: 100 })
 			} else {
-				if (typeof key !== "string") 	 throw new DBError(`The first argument of the class initialization must be a string (key), not "${typeof key}"\nIf you want to put a configuration instead of a key, remove the second argument`, { value: key });
-				if (config && !isObject(config)) throw new DBError(`The second argument to the initialization of the class must be an object! You have type "${typeof config}"`, { value: config }); 
+				if (typeof key !== "string") 	 throw new DBError(`The first argument of the class initialization must be a string (key), not "${typeof key}"\nIf you want to put a configuration instead of a key, remove the second argument`, { code: 101, value: key });
+				if (config && !isObject(config)) throw new DBError(`The second argument to the initialization of the class must be an object! You have type "${typeof config}"`, { code: 102, value: config }); 
 			};
 			if (typeof key === "string") this.setKey(key);
 		} else this.key = [];
 		let value = isObject(key) ? key : config;
 		if (!value) value = {};
-		this.setConfig(<ConfigDB>value, true);
+		this.setConfig(<ConfigUser>value, true);
 	};
 
 	// Функция для проверки ключа.
 	private _checkKey(key: any, functionName: string, checkGlobalKey: boolean = true): void | never {
-		if (checkGlobalKey && !key && !this.key.length)   throw new DBError("You did not specify a key or value when initializing the class, you must now specify it in functions!", { functionName, key });
-		if (typeof key != "string")                       throw new DBError("The key value must be a string!", { functionName, key });
+		if (checkGlobalKey && !key && !this.key.length)   throw new DBError("You did not specify a key or value when initializing the class, you must now specify it in functions!", { code: 200.1, functionName, key });
+		if (typeof key != "string")                       throw new DBError("The key value must be a string!", { code: 201, functionName, key });
 	};
 
 	// Функция для разделения ключа.
@@ -92,9 +103,9 @@ export default class DataBase {
 		return key.split(".").filter(key => key != "");
 	};
 
-	setConfig(config: ConfigDB, local?: boolean): void	 {
-		if (!config)   throw new DBError("Specify config!", { functionName: "setConfig" });
-		if (!isObject) throw new DBError("The configuration must be in the form of an object!", { functionName: "setConfig" });
+	setConfig(config: ConfigUser, local?: boolean): void	 {
+		if (!config)   throw new DBError("Specify config!", { code: 400, functionName: "setConfig" });
+		if (!isObject(config)) throw new DBError("The configuration must be in the form of an object!", { code: 401, functionName: "setConfig" });
 		
 		const configModel = DataBase.configModel
 		for (let i = 0; i < configModel.length; i++) {
@@ -103,7 +114,7 @@ export default class DataBase {
 				this.config[configModel[i].name] = configModel[i].default;
 			} else {
 				const value = config[configModel[i].name];
-				if (typeof value !== configModel[i].type) throw new DBError(`The type is incorrectly specified in the setting "config.${configModel[i].name}". Type is required: "${configModel[i].type}", and you have: "${typeof value}"`);
+				if (typeof value !== configModel[i].type) throw new DBError(`The type is incorrectly specified in the setting "config.${configModel[i].name}". Type is required: "${configModel[i].type}", and you have: "${typeof value}"`, { code: 402 });
 				configModel[i].check(value);
 				this.config[configModel[i].name] = config[configModel[i].name];
 				if (!local) DataBase.config[configModel[i].name] = config[configModel[i].name];
@@ -116,7 +127,7 @@ export default class DataBase {
 		const key = this.key.concat(this._splitKey(keyString));
 
 		// Проверяем ошибки в значении.
-		if (value) scanValue(value, "value", { functionName, key });
+		if (value) scanValue(value, "value", { code: 212, functionName, key });
 		
 		return {
 			process: (callback: CallbackArguments) => {
@@ -125,13 +136,13 @@ export default class DataBase {
 					if (stop) break;
 
 					// Получаем все индексы массивов в ключе.
-					const keyIndices = printIndices(key[i], { functionName, value, key }); 
+					const keyIndices = printIndices(key[i]); 
 					
 					// Обрезаем индексы массивов.
 					if (keyIndices.length) key[i] = key[i].slice(0, key[i].indexOf("[" + keyIndices[0] + "]"));
 					
 					// Если юзер введёт просто "[0]" вместо "key[0]"
-					if (key[i].length === 0) throw new DBError("You didn't specify a key, just an array index!", { functionName, value }); 
+					if (key[i].length === 0) throw new DBError("You didn't specify a key, just an array index!", { code: 202.1, functionName, value }); 
 					callback(key, i, keyIndices, () => stop = true);
 				};
 			}
@@ -149,7 +160,7 @@ export default class DataBase {
 	  * @returns { string }
 	*/
 	setKey(key: string): string | never {
-		if (!key) throw new DBError("No key specified.", { functionName: "setKey" });
+		if (!key) throw new DBError("No key specified.", { code: 203, functionName: "setKey" });
 		this._checkKey(key, "setKey", false);
 
 		this.key = this._splitKey(key);
@@ -176,7 +187,7 @@ export default class DataBase {
 	  * @returns { string }
 	*/
 	addKey(key: string): string | never {
-		if (!key) throw new DBError("No key specified.", { functionName: "addKey" });
+		if (!key) throw new DBError("No key specified.", { code: 204, functionName: "addKey" });
 		this._checkKey(key, "addKey", false);
 		this.key = this.key.concat(this._splitKey(key));
 		return this.key.join(".");
@@ -194,9 +205,9 @@ export default class DataBase {
 	  * @returns { string }
 	*/
 	removeKey(num: number = 1): string | never {
-		if (this.key.length == 1)                 throw new DBError("You only have one key, you have nothing to clean!", { functionName: "removeKey", value: num });
-		if (isNaN(num) || typeof num != "number") throw new DBError("The value is not a number!",                        { functionName: "removeKey", value: num });
-		if (this.key.length <= num)               throw new DBError(`You have only ${this.key.length} keys, you cannot remove ${num} keys. You can only remove a maximum of ${this.key.length-1}.`, { functionName: "removeKey", value: num });
+		if (this.key.length == 1)                 throw new DBError("You only have one key, you have nothing to clean!", { code: 205, functionName: "removeKey", value: num });
+		if (isNaN(num) || typeof num != "number") throw new DBError("The value is not a number!",                        { code: 206, functionName: "removeKey", value: num });
+		if (this.key.length <= num)               throw new DBError(`You have only ${this.key.length} keys, you cannot remove ${num} keys. You can only remove a maximum of ${this.key.length-1}.`, { code: 207, functionName: "removeKey", value: num });
 
 		this.key = this.key.slice(0, -num);
 		return this.key.join(".");
@@ -392,15 +403,15 @@ export default class DataBase {
 		const key = this.key.concat(this._splitKey(<string>keyString)).join(".");
 
 		// Проверка на ошибки.
-		if (totalAmount == undefined)   throw new DBError("Enter the number!",          { functionName: "add/subtract", value: totalAmount, key });
-		if (isNaN(<number>totalAmount)) throw new DBError("The value is not a number!", { functionName: "add/subtract", value: totalAmount, key });
+		if (totalAmount == undefined)   throw new DBError("Enter the number!",          { code: 208, functionName: "add/subtract", value: totalAmount, key });
+		if (isNaN(<number>totalAmount)) throw new DBError("The value is not a number!", { code: 209, functionName: "add/subtract", value: totalAmount, key });
 
 		// Получить данные.
 		let data = this.get(<string>keyString);
 
 		if (!isNaN(<number>data)) data = Number(data) + Number(totalAmount); // Если значение в базе равняется числу - добавляем число.
-		else if (!this.has(<string>keyString, true)) data = <Array<number>>totalAmount;     // Если значение в базе нету - создаём его.
-		else throw new DBError("The object in the database is not a number!",     { functionName: "add/subtract", value: totalAmount, key });
+		else if (!this.has(keyString, true)) data = <Array<number>>totalAmount; // Если значение в базе нету - создаём его.
+		else throw new DBError("The object in the database is not a number!", { code: 210, functionName: "add/subtract", value: totalAmount, key });
 
 		// Сохраняем значения.
 		this.set(<string>keyString, data); 
@@ -458,7 +469,7 @@ export default class DataBase {
 		// Делаем нужные действия.
 		if (Array.isArray(data)) data = data.concat(value);           // Добавляем новый элемент если значение в базе - массив.
 		else if (!this.has(<string>keyString, true)) data = value;    // Если элемента в базе нет - создаём новый массив.
-		else throw new DBError("The array is not in the database for this key!", { functionName: "push", value, key });
+		else throw new DBError("The array is not in the database for this key!", { code: 211, functionName: "push", value, key });
 
 		// Сохраняем значения.
 		this.set(<string>keyString, data);

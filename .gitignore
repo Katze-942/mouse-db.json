@@ -116,3 +116,5 @@ package-lock.json
 build/*
 
 cache/
+
+test.ts
