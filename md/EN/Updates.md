@@ -1,5 +1,6 @@
 # A list of mouse-db.json updates will be stored here ( starting from version `2.0.0` )
-## Версии:
+## Versions:
+- **`2.0.1`** - Fix with the fact that there were no build files in the module, which is why it could not start.
 - **`2.0.0`** - Rewriting the module from scratch, changing the structure and adding a config. The module is no longer dependent on `quick.db`
 ---
 ## **`v2.0.0`** - Global update!
