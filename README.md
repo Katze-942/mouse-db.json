@@ -9,7 +9,7 @@
     </div>
   </p>
   <p>
-    <a href="https://nodei.co/npm/discore.js/">
+    <a href="https://nodei.co/npm/mouse-db.json/">
       <img src="https://nodei.co/npm/mouse-db.json.png?downloads=true&stars=true">
     </a>
   </p>
