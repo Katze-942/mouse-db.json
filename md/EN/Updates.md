@@ -25,3 +25,5 @@
 - 14\. It has become much safer to write huge files.
 - 15\. The module code structure has been completely redesigned.
 - 16\. Added syntactic sugar for the `add`/`subtract`/`push` functions
+- 17\. `DаtаBаse.json` now returns an object from filenames along with their data.
+- 18\. `DаtаBаse.path` renamed to `DаtаBаse.globаlPаth`
