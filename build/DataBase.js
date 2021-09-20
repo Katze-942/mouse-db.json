@@ -15,6 +15,7 @@ const _dirnameSplit = __dirname.split("/");
 */
 class DataBase {
     constructor(key, config) {
+        this.key = [];
         this.config = {};
         if (key !== undefined) {
             if (!config) {

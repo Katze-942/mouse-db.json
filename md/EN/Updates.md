@@ -1,5 +1,6 @@
 # A list of mouse-db.json updates will be stored here
 ## Versions:
+- **`2.0.2`** - Fixed a bug in which the module generated an error if the key was not specified in the class, but the config was specified.
 - **`2.0.1`** - Fix with the fact that there were no build files in the module, which is why it could not start.
 - **`2.0.0`** - Rewriting the module from scratch, changing the structure and adding a config. The module is no longer dependent on `quick.db`
 ---

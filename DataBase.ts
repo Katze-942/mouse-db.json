@@ -77,6 +77,7 @@ export default class DataBase {
 	constructor(key?: string, config?: ConfigUser);
 	constructor(config?: ConfigUser)
 	constructor(key?: string | ConfigUser, config?: ConfigUser) {
+		this.key = [];
 		this.config = {};
 		if (key !== undefined) {
 			if (!config) {
